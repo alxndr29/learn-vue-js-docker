@@ -1,33 +1,63 @@
 <script setup lang="ts">
 import customApi from "@/utils/api.ts";
 import {useQuery} from "@tanstack/vue-query";
+import Loading from "@/components/Loading.vue";
+import Error from "@/components/Error.vue";
+import CardItem from "@/components/CardItem.vue";
+import {withMinDelay} from "@/utils/withMinDelay";
 
 const fetchData = async () => {
   const {data} = await customApi.get(
       "/article?limit=3&sortBy=createdAt&sortOrder=desc",
-      {
-        headers: {"Cache-Control": "no-cache"}
-      }
+      {headers: {"Cache-Control": "no-cache"}}
   );
   return data;
 };
+
+const MIN_LOADING_MS = 1200;
+
 const {data, isLoading, error} = useQuery({
   queryKey: ["data"],
-  queryFn: fetchData,
+  queryFn: () => withMinDelay(fetchData(), MIN_LOADING_MS),
+  refetchOnWindowFocus: false,
 });
 
 </script>
 
 <template>
-  <main>
-    <div v-if="isLoading">Loading ...</div>
-    <div v-else-if="error">Error ...</div>
-    <div v-else>
-      <ul>
-        <li v-for="item in data.data" :key="data.id">
-          {{ item.title }}
-        </li>
-      </ul>
-    </div>
+  <main class="relative">
+    <Transition name="fade" mode="out-in" appear>
+      <!-- LOADING OVERLAY -->
+      <div v-if="isLoading" key="loading"
+           class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
+        <Loading class="mb-4"/>
+      </div>
+
+      <div v-else-if="error" key="error">
+        <Error/>
+      </div>
+
+      <section v-else key="content">
+        <h1 class="text-primary font-bold text-3xl underline">
+          List Recent Articles
+        </h1>
+        <CardItem :item="item" v-for="item in data.data" :key="item.id"/>
+        <button class="btn btn-block btn-primary mt-10">
+          Show All Article
+        </button>
+      </section>
+    </Transition>
   </main>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 250ms ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

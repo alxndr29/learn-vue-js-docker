@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="navbar bg-base-100 shadow-sm fixed top-0 right-0">
+    <div class="navbar bg-base-100 shadow-sm fixed top-0 right-0 z-10">
       <div class="navbar-start">
         <div class="dropdown">
           <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
