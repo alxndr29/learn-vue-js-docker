@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {ArticleProps} from "@/types";
+
 defineProps<{ item: ArticleProps }>();
 </script>
 
@@ -17,7 +18,9 @@ defineProps<{ item: ArticleProps }>();
           <p><span class="font-bold">Written By: {{ item.user.name }}</span></p>
           <span class="text-secondary">{{ new Date(item.createdAt).toDateString() }}</span>
         </div>
-        <button class="btn btn-primary">Detail</button>
+        <RouterLink :to="{name:'DetailArticle',params:{id:item.id}}">
+          <button class="btn btn-primary">Detail</button>
+        </RouterLink>
       </div>
     </div>
   </div>

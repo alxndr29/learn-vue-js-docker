@@ -16,7 +16,7 @@ const fetchData = async () => {
 
 const MIN_LOADING_MS = 1200;
 
-const {data, isLoading, error} = useQuery({
+const {data, isLoading, isFetching, error} = useQuery({
   queryKey: ["data"],
   queryFn: () => withMinDelay(fetchData(), MIN_LOADING_MS),
   refetchOnWindowFocus: false,
@@ -25,39 +25,21 @@ const {data, isLoading, error} = useQuery({
 </script>
 
 <template>
-  <main class="relative">
-    <Transition name="fade" mode="out-in" appear>
-      <!-- LOADING OVERLAY -->
-      <div v-if="isLoading" key="loading"
-           class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
-        <Loading class="mb-4"/>
-      </div>
-
-      <div v-else-if="error" key="error">
-        <Error/>
-      </div>
-
-      <section v-else key="content">
-        <h1 class="text-primary font-bold text-3xl underline">
-          List Recent Articles
-        </h1>
-        <CardItem :item="item" v-for="item in data.data" :key="item.id"/>
-        <button class="btn btn-block btn-primary mt-10">
-          Show All Article
-        </button>
-      </section>
-    </Transition>
-  </main>
+  <div v-if="isLoading || isFetching" key="loading"
+       class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
+    <Loading class="mb-4"/>
+  </div>
+  <div v-else-if="error" key="error">
+    <Error/>
+  </div>
+  <section v-else key="content">
+    <h1 class="text-primary font-bold text-3xl underline">
+      List Recent Articles
+    </h1>
+    <CardItem :item="item" v-for="item in data.data" :key="item.id"/>
+    <button class="btn btn-block btn-primary mt-10">
+      Show All Article
+    </button>
+  </section>
 </template>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 250ms ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
