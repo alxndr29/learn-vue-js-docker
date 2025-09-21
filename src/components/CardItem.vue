@@ -5,8 +5,8 @@ defineProps<{ item: ArticleProps }>();
 </script>
 
 <template>
-  <div class="card card-side bg-base-100 shadow-sm mt-10">
-    <figure class="shrink-0">
+  <div class="card card-side bg-base-200 shadow-sm mt-10">
+    <figure>
       <img :src="item.image" alt="item.title" class="max-w-[300px] max-h-[300px] object-contain"/>
     </figure>
     <div class="card-body">

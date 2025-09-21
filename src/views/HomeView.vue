@@ -37,9 +37,9 @@ const {data, isLoading, isFetching, error} = useQuery({
       List Recent Articles
     </h1>
     <CardItem :item="item" v-for="item in data.data" :key="item.id"/>
-    <button class="btn btn-block btn-primary mt-10">
+    <RouterLink :to="{name:'Article'}" class="btn btn-block btn-primary mt-10">
       Show All Article
-    </button>
+    </RouterLink>
   </section>
 </template>
 
