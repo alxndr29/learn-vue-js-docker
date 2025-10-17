@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import {useAuthStore} from "@/store/auth.ts";
+
+const authStore = useAuthStore();
+</script>
 <template>
   <header>
     <div class="navbar bg-base-100 shadow-sm fixed top-0 right-0 z-10">
@@ -44,11 +49,21 @@
         </ul>
       </div>
       <div class="navbar-end">
-        <a class="btn">Button</a>
+        <div v-if="authStore.token">
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost rounded-field">
+              {{ authStore.user?.name }}
+            </div>
+            <ul tabindex="0" class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow">
+              <li><a>Dashboard</a></li>
+              <li><a>Profile</a></li>
+            </ul>
+          </div>
+        </div>
+        <div v-else>
+          <RouterLink :to="{name: 'Login'}" class="btn btn-primary">Login</RouterLink>
+        </div>
       </div>
     </div>
   </header>
 </template>
-
-<script setup lang="ts">
-</script>

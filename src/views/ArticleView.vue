@@ -19,7 +19,6 @@ const categoryId = computed(() => route.query.categoryId as string || null);
 const sortBy = computed(() => route.query.sortBy as string || 'createdAt');
 const sortOrder = computed(() => route.query.sortOrder as string || 'desc');
 
-
 const fetchDataArticle = async () => {
   const {data} = await customApi.get("/article", {
     params: {
@@ -33,11 +32,9 @@ const fetchDataArticle = async () => {
   });
   return data;
 };
-
 const {data, isLoading, isError} = useQuery({
   queryKey: ["articles", page, limit, title, categoryId, sortBy, sortOrder],
   queryFn: fetchDataArticle,
-
 });
 </script>
 
