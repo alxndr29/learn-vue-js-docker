@@ -1,12 +1,43 @@
 <script setup lang="ts">
 import {useAuthStore} from "@/store/auth.ts";
+import {useRouter} from "vue-router";
+import {useMutation, useQuery} from "@tanstack/vue-query";
+import customApi from "@/utils/api.ts";
 
 const authStore = useAuthStore();
+const router = useRouter();
+
+const fetchDataCategoryNav = async () => {
+  const {data} = await customApi.get('/category')
+  return data;
+}
+const {data, isLoading, error} = useQuery({
+  queryKey: ["categoryNav"],
+  queryFn: fetchDataCategoryNav,
+});
+
+const logOutMutation = useMutation({
+  mutationFn: async () => {
+    authStore.removeAuth();
+  },
+  onSuccess: () => {
+    router.push({
+      name: "Login"
+    });
+  },
+  onError: (error) => {
+    console.log(error)
+  }
+});
+const handleLogout = () => {
+  logOutMutation.mutate();
+};
 </script>
 <template>
   <header>
     <div class="navbar bg-base-100 shadow-sm fixed top-0 right-0 z-10">
       <div class="navbar-start">
+        <!--Mobile-->
         <div class="dropdown">
           <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -17,46 +48,61 @@ const authStore = useAuthStore();
           <ul
               tabindex="0"
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-            <li><a>Item 1</a></li>
             <li>
-              <a>Parent</a>
+              <RouterLink :to="{name: 'Article'}">Article</RouterLink>
+            </li>
+            <li>
+              <a>Category</a>
               <ul class="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
+                <li v-if="isLoading">Loading ...</li>
+                <li v-else-if="error">Error ...</li>
+                <li v-else v-for="category in data" :key="category.id">
+                  <RouterLink :to="{name:'Article', query:{categoryId: category.id}}">
+                    {{ category.name }}
+                  </RouterLink>
+                </li>
               </ul>
             </li>
-            <li><a>Item 3</a></li>
           </ul>
         </div>
         <RouterLink :to="{name:'home'}">
-          <a class="btn btn-ghost text-xl">CRUD EVAN</a>
+          <a class="btn btn-ghost text-xl">CRUD VUE JS EVAN</a>
         </RouterLink>
-
       </div>
+      <!--PC-->
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-          <li><a>Item 1</a></li>
+          <li>
+            <RouterLink :to="{name: 'Article'}">Article</RouterLink>
+          </li>
           <li>
             <details>
-              <summary>Parent</summary>
+              <summary>Category</summary>
               <ul class="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
+                <li v-if="isLoading">Loading ...</li>
+                <li v-else-if="error">Error ...</li>
+                <li v-else v-for="category in data" :key="category.id">
+                  <RouterLink :to="{name:'Article', query:{categoryId: category.id}}">
+                    {{ category.name }}
+                  </RouterLink>
+                </li>
               </ul>
             </details>
           </li>
-          <li><a>Item 3</a></li>
         </ul>
       </div>
       <div class="navbar-end">
         <div v-if="authStore.token">
           <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost rounded-field">
+            <div tabindex="0" role="button" class="btn btn-info rounded-field">
               {{ authStore.user?.name }}
             </div>
             <ul tabindex="0" class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow">
               <li><a>Dashboard</a></li>
               <li><a>Profile</a></li>
+              <li>
+                <span class="text-error" @click="handleLogout">Logout</span>
+              </li>
             </ul>
           </div>
         </div>

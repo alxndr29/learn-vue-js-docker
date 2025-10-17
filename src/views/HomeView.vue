@@ -14,7 +14,7 @@ const fetchData = async () => {
   return data;
 };
 
-const MIN_LOADING_MS = 1200;
+const MIN_LOADING_MS = 0;
 
 const {data, isLoading, isFetching, error} = useQuery({
   queryKey: ["data"],
