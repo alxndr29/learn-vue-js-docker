@@ -99,7 +99,7 @@ const handleLogout = () => {
             </div>
             <ul tabindex="0" class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow">
               <li><RouterLink :to="{name: 'Dashboard'}">Dashboard</RouterLink></li>
-              <li><a>Profile</a></li>
+              <li><RouterLink :to="{name: 'Profile'}">Profile</RouterLink></li>
               <li>
                 <span class="text-error" @click="handleLogout">Logout</span>
               </li>

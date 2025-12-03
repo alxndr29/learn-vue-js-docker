@@ -7,6 +7,7 @@ import RegisterVIew from "@/views/RegisterVIew.vue";
 import PublicLayout from '@/components/layouts/PublicLayout.vue';
 import DashboardLayout from '@/components/layouts/DashboardLayout.vue';
 import DashboardView from '@/views/DashboardView.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
                     path: '',
                     name: 'Dashboard',
                     component: DashboardView
+                },
+                {
+                    path: 'profile',
+                    name: 'Profile',
+                    component: ProfileView
                 }
             ]
         }

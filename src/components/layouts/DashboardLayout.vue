@@ -11,11 +11,29 @@ const isOpen = ref(false)
 const toggleDrawer = () => (isOpen.value = !isOpen.value)
 const closeDrawer = () => (isOpen.value = false)
 
+const logOutMutation = useMutation({
+    mutationFn: async () => {
+        authStore.removeAuth();
+    },
+    onSuccess: () => {
+        router.push({
+            name: "Login"
+        });
+    },
+    onError: (error) => {
+        console.log(error)
+    }
+});
+const handleLogout = () => {
+    logOutMutation.mutate();
+};
+
 </script>
 <template>
     <div class="flex h-screen">
+        <!-- sidebar -->
         <div :class="['bg-base-200 w-64 space-y-4 transition-transform duration-300',
-            isOpen ? 'translate-x-0' : 'translate-x-full',
+            isOpen ? 'translate-x-0' : '-translate-x-full',
             'fixed z-40 h-full lg:static lg:translate-x-0']">
             <h2 class="text-2xl font-bold m-5">{{ authStore.user?.name }}</h2>
             <ul class="menu bg-base-200 rounded-box w-56">
@@ -23,7 +41,15 @@ const closeDrawer = () => (isOpen.value = false)
                     <h2 class="menu-title">Dashboard</h2>
                     <ul>
                         <li>
-                            <RouterLink :to="{ name: 'Dashboard' }">Dashboard</RouterLink>
+                            <RouterLink class="text-md" :to="{ name: 'Dashboard' }">Dashboard</RouterLink>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h2 class="menu-title">Profile</h2>
+                    <ul>
+                        <li>
+                            <RouterLink class="text-md" :to="{ name: 'Profile' }">Profile</RouterLink>
                         </li>
                     </ul>
                 </li>
@@ -51,15 +77,14 @@ const closeDrawer = () => (isOpen.value = false)
                     <RouterLink :to="{ name: 'home' }" class="btn btn-ghost text-xl">Public</RouterLink>
                 </div>
                 <div class="flex-none">
-                    <button class="btn btn-sm text-white btn-error">
+                    <button class="btn btn-sm text-white btn-error" @click="handleLogout">
                         Logout
                     </button>
                 </div>
             </div>
-
             <!-- Page Content -->
             <main class="p-6 flex-1 overflow-y-auto">
-                <RouterView />
+                <RouterView/>
             </main>
         </div>
     </div>
