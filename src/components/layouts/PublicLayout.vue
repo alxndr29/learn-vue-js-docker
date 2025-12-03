@@ -17,7 +17,7 @@ import Footer from '../Footer.vue';
   <Footer/>
 </template>
 
-<style scoped>
+<style>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 250ms ease;

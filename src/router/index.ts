@@ -8,6 +8,8 @@ import PublicLayout from '@/components/layouts/PublicLayout.vue';
 import DashboardLayout from '@/components/layouts/DashboardLayout.vue';
 import DashboardView from '@/views/DashboardView.vue';
 import ProfileView from '@/views/ProfileView.vue';
+import CreateProfileView from '@/views/CreateProfileView.vue';
+import UpdateProfileView from '@/views/UpdateProfileView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +58,17 @@ const router = createRouter({
                     path: 'profile',
                     name: 'Profile',
                     component: ProfileView
-                }
+                },
+                {
+                    path: 'profile/create',
+                    name: 'CreateProfile',
+                    component: CreateProfileView
+                },
+                 {
+                    path: 'profile/update',
+                    name: 'UpdateProfile',
+                    component: UpdateProfileView
+                },
             ]
         }
 

@@ -84,8 +84,23 @@ const handleLogout = () => {
             </div>
             <!-- Page Content -->
             <main class="p-6 flex-1 overflow-y-auto">
-                <RouterView/>
+                <RouterView v-slot="{ Component, route }">
+                    <Transition name="fade" mode="out-in" appear>
+                        <component :is="Component" :key="route.fullPath" />
+                    </Transition>
+                </RouterView>
             </main>
         </div>
     </div>
 </template>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 250ms ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>
