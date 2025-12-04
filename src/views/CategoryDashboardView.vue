@@ -96,10 +96,10 @@ const handleSubmit = () => {
     }
 }
 
-const handleDelete = async (id:string) => {
-    if(confirm("Sure want to delete?")){
-        await customApi.delete(`category/${id}`,{
-            headers:{
+const handleDelete = async (id: string) => {
+    if (confirm("Sure want to delete?")) {
+        await customApi.delete(`category/${id}`, {
+            headers: {
                 Authorization: `Bearer ${authStore.token}`
             }
         })
@@ -123,6 +123,13 @@ const handleDelete = async (id:string) => {
                 </fieldset>
             </form>
         </div>
+        <div v-if="isLoading" key="loading"
+            class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
+            <Loading class="mb-4" />
+        </div>
+        <div v-else-if="error" key="error">
+            <Error />
+        </div>
         <div class="overflow-x-auto">
             <table class="table">
                 <thead>
@@ -133,17 +140,7 @@ const handleDelete = async (id:string) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="isLoading">
-                        <th>
-                            <Loading />
-                        </th>
-                    </tr>
-                    <tr v-else-if="error">
-                        <th>
-                            <Error />
-                        </th>
-                    </tr>
-                    <tr v-else v-for="(item, index) in data" :key="item.id">
+                    <tr v-for="(item, index) in data" :key="item.id">
                         <th>{{ index + 1 }}</th>
                         <td>{{ item.name }}</td>
                         <td>
