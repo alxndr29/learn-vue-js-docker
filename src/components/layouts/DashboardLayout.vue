@@ -53,6 +53,14 @@ const handleLogout = () => {
                         </li>
                     </ul>
                 </li>
+                <li v-if="authStore.user?.role == 'admin'">
+                    <h2 class="menu-title">Master</h2>
+                    <ul>
+                        <li>
+                            <RouterLink class="text-md" :to="{ name: 'CategoryDashboard' }">Category</RouterLink>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
 
