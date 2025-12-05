@@ -59,6 +59,9 @@ const handleLogout = () => {
                         <li>
                             <RouterLink class="text-md" :to="{ name: 'CategoryDashboard' }">Category</RouterLink>
                         </li>
+                         <li>
+                            <RouterLink class="text-md" :to="{ name: 'ArticleDashboard' }">Article</RouterLink>
+                        </li>
                     </ul>
                 </li>
             </ul>

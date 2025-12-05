@@ -110,6 +110,7 @@ const handleDelete = async (id: string) => {
 </script>
 <template>
     <section>
+        <h1 class="text-info text-3xl">Dashboard Category</h1>
         <button class="btn btn-primary my-3" @click="showCreateForm">Add</button>
         <div class="my-5" v-if="showForm">
             <form @submit.prevent="handleSubmit">

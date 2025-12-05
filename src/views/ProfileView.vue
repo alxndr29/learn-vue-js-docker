@@ -24,7 +24,7 @@ const { data, isLoading, error } = useQuery({
 </script>
 <template>
     <section>
-        <h1 class="text-info text-2xl font-bold">Halaman profile</h1>
+        <h1 class="text-info text-3xl">Dashboard Profile</h1>
         <div v-if="isLoading" key="loading"
             class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
             <Loading class="mb-4" />
