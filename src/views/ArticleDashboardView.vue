@@ -35,7 +35,10 @@ const { data, isLoading, error } = useQuery({
 
 <template>
     <section>
-        <h1 class="text-info text-3xl">Dashboard Article</h1>
+        <h1 class="text-info text-3xl font-bold mb-5">Dashboard Article</h1>
+        <div class="flex justify-end">
+            <RouterLink :to="{name: 'CreateArticle'}" class="btn btn-primary btn-md">Create</RouterLink>
+        </div>
         <div v-if="isLoading" key="loading"
             class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
             <Loading class="mb-4" />

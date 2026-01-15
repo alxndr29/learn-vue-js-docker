@@ -13,6 +13,7 @@ import UpdateProfileView from '@/views/UpdateProfileView.vue';
 import { useAuthStore } from '@/store/auth';
 import CategoryDashboardView from '@/views/CategoryDashboardView.vue';
 import ArticleDashboardView from '@/views/ArticleDashboardView.vue';
+import CreateArticleView from '@/views/CreateArticleView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -93,6 +94,14 @@ const router = createRouter({
                     path: 'article',
                     name: 'ArticleDashboard',
                     component: ArticleDashboardView,
+                    meta: {
+                        isAdmin: true,
+                    },
+                },
+                {
+                    path: 'article/create',
+                    name: 'CreateArticle',
+                    component: CreateArticleView,
                     meta: {
                         isAdmin: true,
                     },
