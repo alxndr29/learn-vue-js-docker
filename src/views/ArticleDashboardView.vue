@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import customApi from '@/utils/api';
 import { useAuthStore } from '@/store/auth';
-import { useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import Loading from '@/components/Loading.vue';
 import Error from '@/components/Error.vue';
 import { useRoute } from 'vue-router';
@@ -26,11 +26,31 @@ const fetchDataArticleDashboard = async () => {
     })
     return data
 }
-const { data, isLoading, error } = useQuery({
+const { data, isFetching, error, refetch } = useQuery({
     queryKey: ["ArticleDashboard", page, limit],
     queryFn: fetchDataArticleDashboard
 })
 
+const deleteArticleMutation = useMutation({
+    mutationFn: async (id: string) => {
+        return customApi.delete(`/article/${id}`, {
+            headers: {
+                Authorization: `Bearer ${authStore.token}`,
+            },
+        });
+    },
+    onSuccess: () => {
+        refetch(); 
+    },
+    onError: (error) => {
+        console.error(error);
+        alert("Gagal menghapus artikel");
+    },
+});
+const handleDelete = (id: string) => {
+    if (!confirm("Hapus artikel ini?")) return;
+    deleteArticleMutation.mutate(id);
+};
 </script>
 
 <template>
@@ -39,7 +59,7 @@ const { data, isLoading, error } = useQuery({
         <div class="flex justify-end">
             <RouterLink :to="{name: 'CreateArticle'}" class="btn btn-primary btn-md">Create</RouterLink>
         </div>
-        <div v-if="isLoading" key="loading"
+        <div v-if="isFetching" key="loading"
             class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
             <Loading class="mb-4" />
         </div>
@@ -85,7 +105,7 @@ const { data, isLoading, error } = useQuery({
                                     </div>
                                 </th>
                                 <th>
-                                    Action
+                                    <button class="btn btn-error btn-md" @click="handleDelete(item.id)">Delete</button>
                                 </th>
                             </tr>
                         </tbody>
@@ -93,7 +113,7 @@ const { data, isLoading, error } = useQuery({
                     </table>
                 </div>
                 <div class="my-3">
-                    <Pagination :last-page="data.lastPage"/>
+                    <Pagination :last-page="data.lastPage" />
                 </div>
             </div>
             <div v-else>

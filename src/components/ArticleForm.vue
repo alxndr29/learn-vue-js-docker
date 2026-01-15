@@ -84,8 +84,10 @@ const createArticleMutation = useMutation({
             <label class="label">Category</label>
             <select class="select w-full" v-model="articleData.category">
                 <option v-if="isLoading">Loading ...</option>
-                <option v-else-if="isLoading">Error ...</option>
-                <option v-else v-for="category in data" :key="category.id" :value="category.id">
+
+                <option v-else-if="error">Error loading category</option>
+
+                <option v-else v-for="category in data ?? []" :key="category.id" :value="category.id">
                     {{ category.name }}
                 </option>
             </select>
