@@ -51,15 +51,19 @@ const handleLogout = () => {
                         <li>
                             <RouterLink class="text-md" :to="{ name: 'Profile' }">Profile</RouterLink>
                         </li>
+                        <li v-if="authStore.user?.role == 'admin'">
+                            <RouterLink class="text-md" :to="{ name: 'UserDashboard' }">User</RouterLink>
+                        </li>
                     </ul>
                 </li>
+
                 <li v-if="authStore.user?.role == 'admin'">
                     <h2 class="menu-title">Master</h2>
                     <ul>
                         <li>
                             <RouterLink class="text-md" :to="{ name: 'CategoryDashboard' }">Category</RouterLink>
                         </li>
-                         <li>
+                        <li>
                             <RouterLink class="text-md" :to="{ name: 'ArticleDashboard' }">Article</RouterLink>
                         </li>
                     </ul>
