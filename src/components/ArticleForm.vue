@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/vue-query';
 import { reactive, ref, computed } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'vue-router';
+import { swalError } from '@/utils/swalError';
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -67,7 +68,7 @@ const createArticleMutation = useMutation({
         router.push({ name: 'ArticleDashboard' })
     },
     onError: (error) => {
-        console.log(error)
+        swalError(error)
     }
 })
 

@@ -3,6 +3,7 @@ import customApi from '@/utils/api'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { useAuthStore } from '@/store/auth'
 import { onMounted, ref } from 'vue'
+import { swalError } from '@/utils/swalError'
 
 const queryClient = useQueryClient()
 const authStore = useAuthStore()
@@ -36,12 +37,11 @@ const createOrUpdateCommentMutation = useMutation({
         content.value = ""
     },
     onError: (error) => {
-        console.log(error)
+       swalError(error)
     }
 })
 const handleSubmit = () => {
     createOrUpdateCommentMutation.mutate()
-    alert('submit komen berhasil')
 }
 
 onMounted(() => {

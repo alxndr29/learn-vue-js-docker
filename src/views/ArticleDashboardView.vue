@@ -7,6 +7,7 @@ import Error from '@/components/Error.vue';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import Pagination from '@/components/Pagination.vue';
+import { swalError } from '@/utils/swalError';
 
 const authStore = useAuthStore()
 const route = useRoute()
@@ -40,11 +41,10 @@ const deleteArticleMutation = useMutation({
         });
     },
     onSuccess: () => {
-        refetch(); 
+        refetch();
     },
     onError: (error) => {
-        console.error(error);
-        alert("Gagal menghapus artikel");
+      swalError(error)
     },
 });
 const handleDelete = (id: string) => {
@@ -57,10 +57,9 @@ const handleDelete = (id: string) => {
     <section>
         <h1 class="text-info text-3xl font-bold mb-5">Dashboard Article</h1>
         <div class="flex justify-end">
-            <RouterLink :to="{name: 'CreateArticle'}" class="btn btn-primary btn-md">Create</RouterLink>
+            <RouterLink :to="{ name: 'CreateArticle' }" class="btn btn-primary btn-md">Create</RouterLink>
         </div>
-        <div v-if="isFetching" key="loading"
-            class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
+        <div v-if="isFetching" class="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
             <Loading class="mb-4" />
         </div>
         <div v-else-if="error" key="error">

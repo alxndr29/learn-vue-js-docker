@@ -5,6 +5,7 @@ import Loading from '@/components/Loading.vue';
 import { useAuthStore } from '@/store/auth';
 import Error from '@/components/Error.vue';
 import { ref } from 'vue';
+import { swalError } from '@/utils/swalError';
 
 const showForm = ref<boolean>(false)
 const name = ref<string>('')
@@ -60,7 +61,7 @@ const createCategoryMutation = useMutation({
         queryClient.invalidateQueries({ queryKey: ["CategoryDashboard"] })
     },
     onError: (error) => {
-        console.log(error)
+        swalError(error)
     }
 })
 
@@ -84,7 +85,7 @@ const updateCategoryMutation = useMutation({
         queryClient.invalidateQueries({ queryKey: ["CategoryDashboard"] })
     },
     onError: (error) => {
-        console.log(error)
+        swalError(error)
     }
 })
 

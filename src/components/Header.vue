@@ -3,6 +3,7 @@ import {useAuthStore} from "@/store/auth.ts";
 import {useRouter} from "vue-router";
 import {useMutation, useQuery} from "@tanstack/vue-query";
 import customApi from "@/utils/api.ts";
+import { swalError } from "@/utils/swalError";
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -26,7 +27,7 @@ const logOutMutation = useMutation({
     });
   },
   onError: (error) => {
-    console.log(error)
+   swalError(error)
   }
 });
 const handleLogout = () => {

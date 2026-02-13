@@ -41,7 +41,7 @@ const handleLogout = () => {
                     <h2 class="menu-title">Dashboard</h2>
                     <ul>
                         <li>
-                            <RouterLink class="text-md" :to="{ name: 'Dashboard' }">Dashboard</RouterLink>
+                            <RouterLink class="text-md" :to="{ name: 'Dashboard' }" >Dashboard</RouterLink>
                         </li>
                     </ul>
                 </li>

@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/vue-query';
 import { useAuthStore } from '@/store/auth';
 import customApi from '@/utils/api';
 import { useRouter } from 'vue-router';
+import { swalError } from '@/utils/swalError';
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -46,7 +47,7 @@ const profileMutation = useMutation({
         router.replace({ name: "Profile" })
     },
     onError: (err) => {
-        console.log(err)
+       swalError(err)
     }
 })
 

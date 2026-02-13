@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import Loading from '@/components/Loading.vue';
 import Error from '@/components/Error.vue';
 import { ref } from 'vue';
+import { swalError } from '@/utils/swalError';
 
 const authStore = useAuthStore()
 const queryClient = useQueryClient()
@@ -56,7 +57,7 @@ const updateRoleMutation = useMutation({
         refetch()
     },
     onError: (error) => {
-        console.log(error)
+       swalError(error)
     }
 })
 const handleUpdate = () => {
